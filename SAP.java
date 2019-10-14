@@ -8,6 +8,8 @@ import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
 
+import java.util.Collections;
+
 public class SAP {
 
     private final Digraph g;
@@ -31,8 +33,8 @@ public class SAP {
         return sapOnePair(v, w)[0];
     }
 
-    private void validateVertex(int v) {
-        if (v < 0 || v >= g.V()) {
+    private void validateVertex(Integer v) {
+        if (v == null || v < 0 || v >= g.V()) {
             throw new IllegalArgumentException();
         }
     }
@@ -54,11 +56,15 @@ public class SAP {
 
     // length of shortest ancestral path between any vertex in v and any vertex in w; -1 if no such path
     public int length(Iterable<Integer> v, Iterable<Integer> w) {
+        v.forEach(this::validateVertex);
+        w.forEach(this::validateVertex);
         return 0;
     }
 
     // a common ancestor that participates in shortest ancestral path; -1 if no such path
     public int ancestor(Iterable<Integer> v, Iterable<Integer> w) {
+        v.forEach(this::validateVertex);
+        w.forEach(this::validateVertex);
         return 0;
     }
 
@@ -70,5 +76,7 @@ public class SAP {
         if (sap.length(12, 9) != 3) {
             throw new IllegalArgumentException(sap.length(12, 9) + "");
         }
+
+        sap.length(Collections.singletonList(9), Collections.singletonList(9));
     }
 }
