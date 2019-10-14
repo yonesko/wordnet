@@ -63,7 +63,7 @@ public class WordNet {
 
     // returns all WordNet nouns
     public Iterable<String> nouns() {
-        return synsets.values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
+        return synsets.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
     }
 
     // is the word a WordNet noun?
