@@ -9,27 +9,28 @@ import edu.princeton.cs.algs4.In;
 
 public class WordNet {
 
-    private Digraph hypernyms;
+    private final Digraph hypernyms;
 
     // constructor takes the name of the two input files
-    public WordNet(String synsets, String hypernyms) {
-        if (synsets == null || hypernyms == null) {
+    public WordNet(String synsets, String hypernymsFileName) {
+        if (synsets == null || hypernymsFileName == null) {
             throw new IllegalArgumentException();
         }
-        initHypernyms(hypernyms);
+        hypernyms = buildHypernyms(hypernymsFileName);
     }
 
-    private void initHypernyms(String hypernyms) {
-        In in = new In(hypernyms);
+    private Digraph buildHypernyms(String hypernymsFileName) {
+        In in = new In(hypernymsFileName);
         String[] lines = in.readAllLines();
-        this.hypernyms = new Digraph(lines.length);
+        Digraph hypernyms = new Digraph(lines.length);
         for (String line : lines) {
             String[] split = line.split(",");
             int synsetId = Integer.parseInt(split[0]);
             for (int i = 1; i < split.length; i++) {
-                this.hypernyms.addEdge(synsetId, Integer.parseInt(split[1]));
+                hypernyms.addEdge(synsetId, Integer.parseInt(split[1]));
             }
         }
+        return hypernyms;
     }
 
     // returns all WordNet nouns
