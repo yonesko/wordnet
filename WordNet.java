@@ -56,14 +56,14 @@ public class WordNet {
         while (!queue.isEmpty()) {
             Integer val = queue.dequeue();
             if (marked[val]) {
-                return false;
+                return true;
             }
             marked[val] = true;
             for (Integer adj : digraph.adj(val)) {
                 queue.enqueue(adj);
             }
         }
-        return true;
+        return false;
     }
 
     private HashMap<Integer, Set<String>> buildSynsets(String synsetsFileName) {
@@ -111,6 +111,7 @@ public class WordNet {
                 hypernyms.addEdge(synsetId, Integer.parseInt(split[i]));
             }
         }
+
         return hypernyms;
     }
 
