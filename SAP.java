@@ -7,7 +7,6 @@
 import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.SET;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,28 +24,20 @@ public class SAP {
     public int length(int v, int w) {
         validateVertex(v);
         validateVertex(w);
-        return sapOnePair(v, w)[1];
+        return sap(Collections.singletonList(v), Collections.singletonList(w))[1];
     }
 
     // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
     public int ancestor(int v, int w) {
         validateVertex(v);
         validateVertex(w);
-        return sapOnePair(v, w)[0];
+        return sap(Collections.singletonList(v), Collections.singletonList(w))[0];
     }
 
     private void validateVertex(Integer v) {
         if (v == null || v < 0 || v >= g.V()) {
             throw new IllegalArgumentException("validateVertex " + v);
         }
-    }
-
-    private int[] sapOnePair(int v, int w) {
-        SET<Integer> v1 = new SET<>();
-        v1.add(v);
-        SET<Integer> w1 = new SET<>();
-        w1.add(w);
-        return sap(v1, w1);
     }
 
     private int[] sap(Iterable<Integer> v, Iterable<Integer> w) {
