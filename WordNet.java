@@ -48,7 +48,8 @@ public class WordNet {
         for (String line : lines) {
             String[] columns = line.split(",");
             for (String noun : splitToNouns(columns[1])) {
-                result.getOrDefault(noun, new HashSet<>()).add(Integer.parseInt(columns[0]));
+                result.putIfAbsent(noun, new HashSet<>());
+                result.get(noun).add(Integer.parseInt(columns[0]));
             }
         }
         return result;
@@ -110,6 +111,10 @@ public class WordNet {
     public static void main(String[] args) {
         WordNet wordNet = new WordNet("synsets.txt", "hypernyms.txt");
         if (!wordNet.isNoun("housebreaking")) {
+            throw new RuntimeException();
+        }
+
+        if (wordNet.distance("tenderfoot", "handbow") != 13) {
             throw new RuntimeException();
         }
     }
