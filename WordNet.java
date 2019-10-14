@@ -70,7 +70,7 @@ public class WordNet {
             String[] split = line.split(",");
             int synsetId = Integer.parseInt(split[0]);
             for (int i = 1; i < split.length; i++) {
-                hypernyms.addEdge(synsetId, Integer.parseInt(split[1]));
+                hypernyms.addEdge(synsetId, Integer.parseInt(split[i]));
             }
         }
         return hypernyms;
@@ -117,5 +117,28 @@ public class WordNet {
         if (wordNet.distance("tenderfoot", "handbow") != 13) {
             throw new RuntimeException();
         }
+
+        if (wordNet.distance("cappelletti", "alphavirus") != 11) {
+            throw new RuntimeException();
+        }
+
+        WordNet net = new WordNet("synsets11.txt", "hypernyms11AmbiguousAncestor.txt");
+        if (net.distance("a", "g") != 4) {
+            System.out.println(toDot(net.hypernyms));
+            throw new RuntimeException();
+        }
+    }
+
+    private static String toDot(Digraph digraph) {
+        StringBuilder sb = new StringBuilder("digraph G {\n");
+
+        for (int i = 0; i < digraph.V(); i++) {
+            for (Integer integer : digraph.adj(i)) {
+                sb.append(String.format("\"%s\" -> \"%s\"\n", i, integer));
+            }
+        }
+
+        sb.append('}');
+        return sb.toString();
     }
 }
