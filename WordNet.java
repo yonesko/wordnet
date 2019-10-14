@@ -5,8 +5,8 @@
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.DirectedCycle;
 import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.Queue;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -49,20 +49,7 @@ public class WordNet {
     }
 
     private boolean hasCycle(Digraph digraph) {
-        Queue<Integer> queue = new Queue<>();
-        boolean marked[] = new boolean[digraph.V()];
-        queue.enqueue(0);
-        while (!queue.isEmpty()) {
-            Integer val = queue.dequeue();
-            if (marked[val]) {
-                return true;
-            }
-            marked[val] = true;
-            for (Integer adj : digraph.adj(val)) {
-                queue.enqueue(adj);
-            }
-        }
-        return false;
+        return new DirectedCycle(digraph).hasCycle();
     }
 
     private void initSynsets(String synsetsFileName) {
@@ -151,8 +138,19 @@ public class WordNet {
             System.out.println(toDot(net.hypernyms));
             throw new RuntimeException();
         }
-        //noinspection ResultOfObjectAllocationIgnored
-        new WordNet("synsets11.txt", "hypernyms3InvalidCycle.txt");
+        boolean cycleException = false;
+        try {
+            //noinspection ResultOfObjectAllocationIgnored
+            new WordNet("synsets11.txt", "hypernyms3InvalidCycle.txt");
+        }
+        catch (IllegalArgumentException e) {
+            if (e.getMessage().contains("hasCycle")) {
+                cycleException = true;
+            }
+        }
+        if (!cycleException) {
+            throw new RuntimeException();
+        }
     }
 
     private static String toDot(Digraph digraph) {
