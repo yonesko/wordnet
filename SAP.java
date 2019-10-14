@@ -52,7 +52,7 @@ public class SAP {
                 node = i;
             }
         }
-        return new int[] { node, len };
+        return new int[] { node, node == -1 ? -1 : len };
     }
 
     // length of shortest ancestral path between any vertex in v and any vertex in w; -1 if no such path
