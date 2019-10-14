@@ -19,12 +19,22 @@ public class SAP {
 
     // length of shortest ancestral path between v and w; -1 if no such path
     public int length(int v, int w) {
+        validateVertex(v);
+        validateVertex(w);
         return sapOnePair(v, w)[1];
     }
 
     // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
     public int ancestor(int v, int w) {
+        validateVertex(v);
+        validateVertex(w);
         return sapOnePair(v, w)[0];
+    }
+
+    private void validateVertex(int v) {
+        if (v < 0 || v >= g.V()) {
+            throw new IllegalArgumentException();
+        }
     }
 
     private int[] sapOnePair(int v, int w) {
