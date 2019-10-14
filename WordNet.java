@@ -7,16 +7,42 @@
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 public class WordNet {
 
     private final Digraph hypernyms;
+    private final HashMap<Integer, Set<String>> synsets;
 
     // constructor takes the name of the two input files
-    public WordNet(String synsets, String hypernymsFileName) {
-        if (synsets == null || hypernymsFileName == null) {
+    public WordNet(String synsetsFileName, String hypernymsFileName) {
+        if (synsetsFileName == null || hypernymsFileName == null) {
             throw new IllegalArgumentException();
         }
         hypernyms = buildHypernyms(hypernymsFileName);
+        synsets = buildSynsets(synsetsFileName);
+    }
+
+    private HashMap<Integer, Set<String>> buildSynsets(String synsetsFileName) {
+        In in = new In(synsetsFileName);
+        String[] lines = in.readAllLines();
+        HashMap<Integer, Set<String>> result = new HashMap<>(lines.length);
+
+        for (String line : lines) {
+            String[] columns = line.split(",");
+            result.put(Integer.parseInt(columns[0]), splitToNouns(columns[1]));
+        }
+        return result;
+    }
+
+    private Set<String> splitToNouns(String s) {
+        String[] nouns = s.split(" ");
+        HashSet<String> result = new HashSet<>(nouns.length);
+        Collections.addAll(result, nouns);
+        return result;
     }
 
     private Digraph buildHypernyms(String hypernymsFileName) {
