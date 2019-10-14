@@ -7,10 +7,12 @@
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class WordNet {
 
@@ -61,7 +63,7 @@ public class WordNet {
 
     // returns all WordNet nouns
     public Iterable<String> nouns() {
-        throw new UnsupportedOperationException();
+        return synsets.values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
     }
 
     // is the word a WordNet noun?
@@ -69,7 +71,12 @@ public class WordNet {
         if (word == null) {
             throw new IllegalArgumentException();
         }
-        throw new UnsupportedOperationException();
+        for (Set<String> value : synsets.values()) {
+            if (value.contains(word)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // distance between nounA and nounB (defined below)
@@ -91,5 +98,8 @@ public class WordNet {
 
     public static void main(String[] args) {
         WordNet wordNet = new WordNet("synsets.txt", "hypernyms.txt");
+        if (!wordNet.isNoun("housebreaking")) {
+            throw new RuntimeException();
+        }
     }
 }
