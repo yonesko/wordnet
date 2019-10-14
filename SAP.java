@@ -7,7 +7,9 @@
 import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.SET;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 public class SAP {
@@ -35,11 +37,19 @@ public class SAP {
 
     private void validateVertex(Integer v) {
         if (v == null || v < 0 || v >= g.V()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("validateVertex " + v);
         }
     }
 
     private int[] sapOnePair(int v, int w) {
+        SET<Integer> v1 = new SET<>();
+        v1.add(v);
+        SET<Integer> w1 = new SET<>();
+        w1.add(w);
+        return sap(v1, w1);
+    }
+
+    private int[] sap(Iterable<Integer> v, Iterable<Integer> w) {
         BreadthFirstDirectedPaths vBFS = new BreadthFirstDirectedPaths(g, v);
         BreadthFirstDirectedPaths wBFS = new BreadthFirstDirectedPaths(g, w);
         int node = -1;
@@ -58,14 +68,14 @@ public class SAP {
     public int length(Iterable<Integer> v, Iterable<Integer> w) {
         v.forEach(this::validateVertex);
         w.forEach(this::validateVertex);
-        return 0;
+        return sap(v, w)[1];
     }
 
     // a common ancestor that participates in shortest ancestral path; -1 if no such path
     public int ancestor(Iterable<Integer> v, Iterable<Integer> w) {
         v.forEach(this::validateVertex);
         w.forEach(this::validateVertex);
-        return 0;
+        return sap(v, w)[0];
     }
 
     public static void main(String[] args) {
@@ -76,7 +86,23 @@ public class SAP {
         if (sap.length(12, 9) != 3) {
             throw new IllegalArgumentException(sap.length(12, 9) + "");
         }
+        if (sap.ancestor(Collections.singletonList(12), Collections.singletonList(9)) != 5) {
+            throw new IllegalArgumentException(
+                    sap.ancestor(Collections.singletonList(12), Collections.singletonList(9)) + "");
+        }
+        if (sap.length(Collections.singletonList(12), Collections.singletonList(9)) != 3) {
+            throw new IllegalArgumentException(
+                    sap.length(Collections.singletonList(12), Collections.singletonList(9)) + "");
+        }
 
-        sap.length(Collections.singletonList(9), Collections.singletonList(9));
+        SAP sap1 = new SAP(new Digraph(new In("digraph25.txt")));
+        if (sap1.ancestor(Arrays.asList(13, 23, 24), Arrays.asList(6, 16, 17)) != 3) {
+            throw new IllegalArgumentException(
+                    sap1.ancestor(Arrays.asList(13, 23, 24), Arrays.asList(6, 16, 17)) + "");
+        }
+        if (sap1.length(Arrays.asList(13, 23, 24), Arrays.asList(6, 16, 17)) != 4) {
+            throw new IllegalArgumentException(
+                    sap1.length(Arrays.asList(13, 23, 24), Arrays.asList(6, 16, 17)) + "");
+        }
     }
 }
