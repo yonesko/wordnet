@@ -57,7 +57,7 @@ public class SAP {
         if (sap.ancestor(12, 9) != 5) {
             throw new IllegalArgumentException(sap.ancestor(12, 9) + "");
         }
-        if (sap.length(12, 9) != 5) {
+        if (sap.length(12, 9) != 3) {
             throw new IllegalArgumentException(sap.length(12, 9) + "");
         }
     }
