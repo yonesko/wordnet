@@ -16,8 +16,8 @@ import java.util.Set;
 public class WordNet {
 
     private final Digraph hypernyms;
-    private final HashMap<Integer, Set<String>> synsets;
-    private final HashMap<String, Set<Integer>> synsets2;
+    private final HashMap<Integer, Set<String>> synsets = new HashMap<>();
+    private final HashMap<String, Set<Integer>> synsets2 = new HashMap<>();
 
     // constructor takes the name of the two input files
     public WordNet(String synsetsFileName, String hypernymsFileName) {
@@ -26,8 +26,7 @@ public class WordNet {
         }
         hypernyms = buildHypernyms(hypernymsFileName);
         validaDAGIsRooted(hypernyms);
-        synsets = buildSynsets(synsetsFileName);
-        synsets2 = buildSynsets2(synsetsFileName);
+        initSynsets(synsetsFileName);
     }
 
     private void validaDAGIsRooted(Digraph digraph) {
@@ -66,31 +65,17 @@ public class WordNet {
         return false;
     }
 
-    private HashMap<Integer, Set<String>> buildSynsets(String synsetsFileName) {
-        In in = new In(synsetsFileName);
-        String[] lines = in.readAllLines();
-        HashMap<Integer, Set<String>> result = new HashMap<>(lines.length);
-
-        for (String line : lines) {
-            String[] columns = line.split(",");
-            result.put(Integer.parseInt(columns[0]), splitToNouns(columns[1]));
-        }
-        return result;
-    }
-
-    private HashMap<String, Set<Integer>> buildSynsets2(String synsetsFileName) {
-        In in = new In(synsetsFileName);
-        String[] lines = in.readAllLines();
-        HashMap<String, Set<Integer>> result = new HashMap<>(lines.length);
-
-        for (String line : lines) {
-            String[] columns = line.split(",");
-            for (String noun : splitToNouns(columns[1])) {
-                result.putIfAbsent(noun, new HashSet<>());
-                result.get(noun).add(Integer.parseInt(columns[0]));
+    private void initSynsets(String synsetsFileName) {
+        for (String line : new In(synsetsFileName).readAllLines()) {
+            final String[] columns = line.split(",");
+            final Set<String> nouns = splitToNouns(columns[1]);
+            final int synsetId = Integer.parseInt(columns[0]);
+            synsets.put(synsetId, nouns);
+            for (String noun : nouns) {
+                synsets2.putIfAbsent(noun, new HashSet<>());
+                synsets2.get(noun).add(Integer.parseInt(columns[0]));
             }
         }
-        return result;
     }
 
     private Set<String> splitToNouns(String s) {
