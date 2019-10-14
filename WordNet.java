@@ -34,6 +34,19 @@ public class WordNet {
         if (hasCycle(digraph)) {
             throw new IllegalArgumentException("hasCycle");
         }
+        if (!hasRoot(digraph)) {
+            throw new IllegalArgumentException("has no root");
+        }
+    }
+
+    private boolean hasRoot(Digraph digraph) {
+        int roots = 0;
+        for (int i = 0; i < digraph.V(); i++) {
+            if (digraph.indegree(i) != 0 && digraph.outdegree(i) == 0) {
+                roots++;
+            }
+        }
+        return roots == 1;
     }
 
     private boolean hasCycle(Digraph digraph) {
