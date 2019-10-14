@@ -7,22 +7,22 @@ API:          PASSED
 
 Spotbugs:     PASSED
 PMD:          FAILED (2 warnings)
-Checkstyle:   FAILED (0 errors, 2 warnings)
+Checkstyle:   FAILED (0 errors, 3 warnings)
 
-Correctness:  26/36 tests passed
+Correctness:  33/36 tests passed
 Memory:       4/4 tests passed
 Timing:       18/27 tests passed
 
-Aggregate score: 76.67%
+Aggregate score: 88.33%
 [Compilation: 5%, API: 5%, Spotbugs: 0%, PMD: 0%, Checkstyle: 0%, Correctness: 60%, Memory: 10%, Timing: 20%]
 
 ASSESSMENT DETAILS
 
 The following files were submitted:
 ----------------------------------
- 494 Oct 14 18:22 Outcast.java
-4.1K Oct 14 18:22 SAP.java
-4.1K Oct 14 18:22 WordNet.java
+ 494 Oct 14 18:39 Outcast.java
+4.1K Oct 14 18:39 SAP.java
+4.8K Oct 14 18:39 WordNet.java
 
 
 ********************************************************************************
@@ -80,7 +80,8 @@ PMD ends with 2 warnings.
 *-----------------------------------------------------------
 [WARN] Outcast.java:12:5: Define constructors after static and instance variables but before methods. [DeclarationOrder]
 [WARN] WordNet.java:68:17: The local (or parameter) variable 'hypernyms' has the same name as an instance variable. Use a different name. [HiddenField]
-Checkstyle ends with 0 errors and 2 warnings.
+[WARN] WordNet.java:136:18: Use the primitive type 'int' instead of the wrapper type 'Integer'. [Wrapper]
+Checkstyle ends with 0 errors and 3 warnings.
 
 % custom checkstyle checks for SAP.java
 *-----------------------------------------------------------
@@ -266,186 +267,45 @@ Running 14 total tests.
 
 Test 1: check distance() with random noun pairs
   * 1000 pairs using synsets = synsets.txt; hypernyms = hypernyms.txt
-    - failed on pair 2 of 1000
-    - nounA = cappelletti
-    - nounB = alphavirus
-    - student   distance() = 13
-    - reference distance() = 11
-
-==> FAILED
+==> passed
 
 Test 2: check distance() with all noun pairs
   * synsets = synsets15.txt; hypernyms = hypernyms15Path.txt
   * synsets = synsets15.txt; hypernyms = hypernyms15Tree.txt
   * synsets = synsets6.txt; hypernyms = hypernyms6TwoAncestors.txt
-    - failed on pair 7
-    - nounA = b
-    - nounB = c
-    - student   distance() = 5
-    - reference distance() = 1
-
   * synsets = synsets11.txt; hypernyms = hypernyms11AmbiguousAncestor.txt
-    - failed on pair 6
-    - nounA = a
-    - nounB = g
-    - student   distance() = 5
-    - reference distance() = 4
-
   * synsets = synsets8.txt; hypernyms = hypernyms8ModTree.txt
-    - failed on pair 42
-    - nounA = f
-    - nounB = h
-    - student   distance() = 3
-    - reference distance() = 2
-
   * synsets = synsets8.txt; hypernyms = hypernyms8WrongBFS.txt
-    - failed on pair 3
-    - nounA = a
-    - nounB = d
-    - student   distance() = 3
-    - reference distance() = 2
-
   * synsets = synsets11.txt; hypernyms = hypernyms11ManyPathsOneAncestor.txt
-    - failed on pair 2
-    - nounA = a
-    - nounB = c
-    - student   distance() = 3
-    - reference distance() = 1
-
   * synsets = synsets8.txt; hypernyms = hypernyms8ManyAncestors.txt
-    - failed on pair 3
-    - nounA = a
-    - nounB = d
-    - student   distance() = 3
-    - reference distance() = 1
-
-==> FAILED
+==> passed
 
 Test 3: check distance() with random noun pairs
   * 1000 pairs using synsets = synsets100-subgraph.txt; hypernyms = hypernyms100-subgraph.txt
-    - failed on pair 12 of 1000
-    - nounA = glutelin
-    - nounB = immunoglobulin_M
-    - student   distance() = 6
-    - reference distance() = 5
-
   * 1000 pairs using synsets = synsets500-subgraph.txt; hypernyms = hypernyms500-subgraph.txt
-    - failed on pair 27 of 1000
-    - nounA = chymosin
-    - nounB = agglutinin
-    - student   distance() = 5
-    - reference distance() = 4
-
   * 1000 pairs using synsets = synsets1000-subgraph.txt; hypernyms = hypernyms1000-subgraph.txt
-    - failed on pair 53 of 1000
-    - nounA = plasma_protein
-    - nounB = Ig
-    - student   distance() = 3
-    - reference distance() = 2
-
-==> FAILED
+==> passed
 
 Test 4: check sap() with random noun pairs
   * 1000 pairs using synsets = synsets.txt; hypernyms = hypernyms.txt
-    - student sap() is too far to be a valid common ancestor when testing pair 33 of 1000
-    - nounA = aspartic_acid
-    - nounB = day_blindness
-    - student   sap() = 'entity'
-    - reference sap() = 'abstraction abstract_entity'
-    - student   distance() = 20
-    - reference distance() to 'abstraction abstract_entity' = 19
-
-==> FAILED
+==> passed
 
 Test 5: check sap() with all noun pairs
   * synsets = synsets15.txt; hypernyms = hypernyms15Path.txt
   * synsets = synsets15.txt; hypernyms = hypernyms15Tree.txt
   * synsets = synsets6.txt; hypernyms = hypernyms6TwoAncestors.txt
-    - student sap() is too far to be a valid common ancestor when testing pair 9 of 6
-    - nounA = b
-    - nounB = c
-    - student   sap() = 'a'
-    - reference sap() = 'c'
-    - student   distance() = 5
-    - reference distance() to 'c' = 1
-
   * synsets = synsets11.txt; hypernyms = hypernyms11AmbiguousAncestor.txt
-    - student sap() is too far to be a valid common ancestor when testing pair 9 of 11
-    - nounA = a
-    - nounB = i
-    - student   sap() = 'c'
-    - reference sap() = 'i'
-    - student   distance() = 4
-    - reference distance() to 'i' = 3
-
   * synsets = synsets8.txt; hypernyms = hypernyms8ModTree.txt
-    - student sap() is too far to be a valid common ancestor when testing pair 48 of 8
-    - nounA = f
-    - nounB = h
-    - student   sap() = 'd'
-    - reference sap() = 'f'
-    - student   distance() = 3
-    - reference distance() to 'f' = 2
-
   * synsets = synsets8.txt; hypernyms = hypernyms8WrongBFS.txt
-    - student sap() is too far to be a valid common ancestor when testing pair 4 of 8
-    - nounA = a
-    - nounB = d
-    - student   sap() = 'd'
-    - reference sap() = 'h'
-    - student   distance() = 3
-    - reference distance() to 'h' = 2
-
   * synsets = synsets11.txt; hypernyms = hypernyms11ManyPathsOneAncestor.txt
-    - student sap() is too far to be a valid common ancestor when testing pair 3 of 11
-    - nounA = a
-    - nounB = c
-    - student   sap() = 'f'
-    - reference sap() = 'c'
-    - student   distance() = 3
-    - reference distance() to 'c' = 1
-
   * synsets = synsets8.txt; hypernyms = hypernyms8ManyAncestors.txt
-    - student sap() is too far to be a valid common ancestor when testing pair 4 of 8
-    - nounA = a
-    - nounB = d
-    - student   sap() = 'h'
-    - reference sap() = 'd'
-    - student   distance() = 3
-    - reference distance() to 'd' = 1
-    - actual distance to 'h' = 2
-
-==> FAILED
+==> passed
 
 Test 6: check sap() with random noun pairs
   * 1000 pairs using synsets = synsets100-subgraph.txt; hypernyms = hypernyms100-subgraph.txt
-    - student sap() is too far to be a valid common ancestor when testing pair 11 of 1000
-    - nounA = IgM
-    - nounB = gelatine
-    - student   sap() = 'protein'
-    - reference sap() = 'simple_protein'
-    - student   distance() = 7
-    - reference distance() to 'simple_protein' = 6
-
   * 1000 pairs using synsets = synsets500-subgraph.txt; hypernyms = hypernyms500-subgraph.txt
-    - student sap() is too far to be a valid common ancestor when testing pair 44 of 1000
-    - nounA = factor_I
-    - nounB = immunoglobulin_D
-    - student   sap() = 'protein'
-    - reference sap() = 'plasma_protein'
-    - student   distance() = 6
-    - reference distance() to 'plasma_protein' = 5
-
   * 1000 pairs using synsets = synsets1000-subgraph.txt; hypernyms = hypernyms1000-subgraph.txt
-    - student sap() is too far to be a valid common ancestor when testing pair 216 of 1000
-    - nounA = midriff
-    - nounB = abducens
-    - student   sap() = 'body_part'
-    - reference sap() = 'animal_tissue'
-    - student   distance() = 10
-    - reference distance() to 'animal_tissue' = 7
-
-==> FAILED
+==> passed
 
 Test 7: check whether WordNet is immutable
   * synsets = synsets.txt; hypernyms = hypernyms.txt
@@ -503,44 +363,13 @@ Test 13: call isNoun() with a null argument
 Test 14: random calls to isNoun(), distance(), and sap(), with
          probabilities p1, p2, and p3, respectively
   * 100 random calls (p1 = 0.5, p2 = 0.5, p3 = 0.0)
-    - failed on call 26 to distance()
-    - nounA = kicker
-    - nounB = Thessalia
-    - student   distance() = 12
-    - reference distance() = 11
-
   * 100 random calls (p1 = 0.5, p2 = 0.0, p3 = 0.5)
-    - student sap() is too far to be a valid common ancestor when testing pair 23 of 100
-    - nounA = Motown
-    - nounB = clinical_psychologist
-    - student   sap() = 'physical_object object'
-    - reference sap() = 'physical_entity'
-    - student   distance() = 14
-    - reference distance() to 'physical_entity' = 11
-    - actual distance to 'physical_object object' = 12
-
-    - failed on call 23 to sap()
   * 100 random calls (p1 = 0.0, p2 = 0.5, p3 = 0.5)
-    - failed on call 3 to distance()
-    - nounA = integrating
-    - nounB = fixed-cycle_operation
-    - student   distance() = 12
-    - reference distance() = 11
-
   * 100 random calls (p1 = 0.2, p2 = 0.4, p3 = 0.4)
-    - student sap() is too far to be a valid common ancestor when testing pair 1 of 100
-    - nounA = stored_program
-    - nounB = perchloromethane
-    - student   sap() = 'entity'
-    - reference sap() = 'abstraction abstract_entity'
-    - student   distance() = 15
-    - reference distance() to 'abstraction abstract_entity' = 14
-
-    - failed on call 1 to sap()
-==> FAILED
+==> passed
 
 
-Total: 6/14 tests passed!
+Total: 13/14 tests passed!
 
 
 ================================================================
@@ -590,7 +419,7 @@ Running 1 total tests.
 digraph G             = digraph-wordnet.txt
 vertices in G         = 82192
 edges    in G         = 84505
-student     memory    = 8347880 bytes
+student     memory    = 8347912 bytes
 reference   memory    = 10320408 bytes
 ratio                 = 0.81
 maximum allowed ratio = 2.50
@@ -610,7 +439,7 @@ Test 1a: check memory of WordNet object
   * synsets = synsets1000-subgraph.txt; hypernyms = hypernyms1000-subgraph.txt
     - number of vertices in digraph = 1000
     - number of edges    in digraph = 1008
-    - student   memory              = 1268424 bytes
+    - student   memory              = 1268472 bytes
     - reference memory              = 1441648 bytes
     - student / reference ratio     = 0.9
     - maximum allowed rato          = 2.0
@@ -621,7 +450,7 @@ Test 1b: check memory of WordNet object
   * synsets = synsets5000-subgraph.txt; hypernyms = hypernyms5000-subgraph.txt
     - number of vertices in digraph = 5000
     - number of edges    in digraph = 5059
-    - student   memory              = 6219864 bytes
+    - student   memory              = 6219712 bytes
     - reference memory              = 7042952 bytes
     - student / reference ratio     = 0.9
     - maximum allowed rato          = 2.0
@@ -632,7 +461,7 @@ Test 1c: check memory of WordNet object
   * synsets = synsets10000-subgraph.txt; hypernyms = hypernyms10000-subgraph.txt
     - number of vertices in digraph = 10000
     - number of edges    in digraph = 10087
-    - student   memory              = 14659416 bytes
+    - student   memory              = 14659712 bytes
     - reference memory              = 16172688 bytes
     - student / reference ratio     = 0.9
     - maximum allowed rato          = 2.0
@@ -656,15 +485,15 @@ Running 14 total tests.
 
 Test 1: time SAP constructor
    *  digraph-wordnet.txt
-      -  student solution time =  0.03 seconds
+      -  student solution time =  0.01 seconds
       -  maximum allowed  time =  1.00 seconds
 ==> passed
 
 Test 2a-c: time length() and ancestor() with random pairs of vertices
   *  digraph-wordnet.txt
-     -  reference solution calls per second:  630019.00
-     -  student   solution calls per second:    1075.00
-     -  reference / student ratio:               586.06
+     -  reference solution calls per second: 1239805.00
+     -  student   solution calls per second:    1610.00
+     -  reference / student ratio:               770.07
 
 => passed      student <= 50000x reference
 => passed      student <= 10000x reference
@@ -673,9 +502,9 @@ Test 2a-c: time length() and ancestor() with random pairs of vertices
 
 Test 3a-c: time length() and ancestor() with random subsets of 5 vertices
   *  digraph-wordnet.txt
-     -  reference solution calls per second:  218274.00
-     -  student   solution calls per second:    1422.00
-     -  reference / student ratio:               153.50
+     -  reference solution calls per second:  351870.00
+     -  student   solution calls per second:    1599.00
+     -  reference / student ratio:               220.06
 
 => passed      student <= 10000x reference
 => passed      student <=  5000x reference
@@ -684,9 +513,9 @@ Test 3a-c: time length() and ancestor() with random subsets of 5 vertices
 
 Test 4a-c: time length() and ancestor() with random subsets of 100 vertices
   *  digraph-wordnet.txt
-     -  reference solution calls per second:   13189.00
-     -  student   solution calls per second:    1031.00
-     -  reference / student ratio:                12.79
+     -  reference solution calls per second:   21084.00
+     -  student   solution calls per second:    1383.00
+     -  reference / student ratio:                15.25
 
 => passed      student <= 10000x reference
 => passed      student <=  5000x reference
@@ -698,9 +527,8 @@ Test 5: Time 10 calls to length() and ancestor() on random path graphs
 
              V  seconds
         ---------------
-         16384     0.06
-         32768     0.21
-         65536     0.34
+         32768     0.06
+         65536     0.15
 ==> passed
 
 
@@ -760,7 +588,7 @@ Test 4: count Digraph operations during 1000 calls each
     - the distance() and sap() methods should not need to create new digraphs
 
   * calls to addEdge()   = 0
-  * calls to adj()       = 42790
+  * calls to adj()       = 46436
   * calls to reverse()   = 0
   * calls to toString()  = 0
 
@@ -768,16 +596,16 @@ Test 4: count Digraph operations during 1000 calls each
 
 Test 5: time WordNet constructor
   * synsets = synsets.txt; hypernyms = hypernyms.txt
-    - student constructor time =  0.46 seconds
+    - student constructor time =  0.34 seconds
     - maximum allowed     time = 10.00 seconds
 
 ==> passed
 
 Test 6a-e: time sap() and distance() with random nouns
   * synsets = synsets.txt; hypernyms = hypernyms.txt
-    - reference solution calls per second:  213271.50
-    - student   solution calls per second:      94.75
-    - reference / student ratio:              2250.89
+    - reference solution calls per second:  336355.75
+    - student   solution calls per second:     158.75
+    - reference / student ratio:              2118.78
 
 => passed    student <= 10000x reference
 => FAILED    student <=  1000x reference
@@ -787,9 +615,9 @@ Test 6a-e: time sap() and distance() with random nouns
 
 Test 7: time isNoun() with random nouns
   * synsets = synsets.txt; hypernyms = hypernyms.txt
-    - reference solution calls per second: 1111233.00
-    - student   solution calls per second:  945615.00
-    - reference / student ratio:                 1.18
+    - reference solution calls per second: 1349621.00
+    - student   solution calls per second: 1180858.00
+    - reference / student ratio:                 1.14
     - allowed ratio:                             4.00
 ==> passed
 

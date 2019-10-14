@@ -6,6 +6,7 @@
 
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Queue;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,8 +25,32 @@ public class WordNet {
             throw new IllegalArgumentException();
         }
         hypernyms = buildHypernyms(hypernymsFileName);
+        validaDAGIsRooted(hypernyms);
         synsets = buildSynsets(synsetsFileName);
         synsets2 = buildSynsets2(synsetsFileName);
+    }
+
+    private void validaDAGIsRooted(Digraph digraph) {
+        if (hasCycle(digraph)) {
+            throw new IllegalArgumentException("hasCycle");
+        }
+    }
+
+    private boolean hasCycle(Digraph digraph) {
+        Queue<Integer> queue = new Queue<>();
+        boolean marked[] = new boolean[digraph.V()];
+        queue.enqueue(0);
+        while (!queue.isEmpty()) {
+            Integer val = queue.dequeue();
+            if (marked[val]) {
+                return false;
+            }
+            marked[val] = true;
+            for (Integer adj : digraph.adj(val)) {
+                queue.enqueue(adj);
+            }
+        }
+        return true;
     }
 
     private HashMap<Integer, Set<String>> buildSynsets(String synsetsFileName) {
@@ -127,6 +152,8 @@ public class WordNet {
             System.out.println(toDot(net.hypernyms));
             throw new RuntimeException();
         }
+        //noinspection ResultOfObjectAllocationIgnored
+        new WordNet("synsets11.txt", "hypernyms3InvalidCycle.txt");
     }
 
     private static String toDot(Digraph digraph) {
